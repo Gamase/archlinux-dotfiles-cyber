@@ -1,0 +1,65 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+
+    "modules-left": ["clock", "custom/power", "custom/wifi", "custom/bluetooth"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["custom/battery", "custom/volume", "custom/brightness"],
+
+    "clock": {
+        "format": " {:%H:%M}",
+        "tooltip-format": "<big>{:%A, %d %B %Y}</big>"
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/power.sh"
+    },
+
+     "custom/wifi": {
+        "exec": "~/.config/waybar/scripts/wifi.sh",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+    },
+    "custom/bluetooth": {
+        "exec": "~/.config/waybar/scripts/bluetooth.sh",
+        "interval": 5,
+        "return-type": "json",
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh"
+    },
+
+    "hyprland/workspaces": {
+        "format": "●",
+        "format-inactive": "○",
+        "on-click": "activate"
+    },
+
+    "custom/battery": {
+        "exec": "~/.config/waybar/scripts/battery.sh",
+        "interval": 5,
+        "return-type": "json"
+    },
+
+    "custom/volume": {
+        "exec": "~/.config/waybar/scripts/volume.sh $([ -f /tmp/waybar-volume-expanded ] && echo expanded || echo false)",
+        "interval": 1,
+        "return-type": "json",
+        "on-click": "~/.config/waybar/scripts/volume-menu.sh",
+        "on-scroll-up": "pamixer -i 5 && pkill -RTMIN+1 waybar",
+        "on-scroll-down": "pamixer -d 5 && pkill -RTMIN+1 waybar",
+        "signal": 1
+    },
+
+    "custom/brightness": {
+        "exec": "~/.config/waybar/scripts/brightness.sh",
+        "interval": 2,
+        "return-type": "json",
+        "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    }
+}
