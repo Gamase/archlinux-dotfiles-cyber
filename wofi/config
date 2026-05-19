@@ -1,0 +1,8 @@
+width=420
+height=320
+prompt=  Search
+insensitive=true
+hide_scroll=true
+no_actions=true
+gtk_dark=true
+allow_markup=true

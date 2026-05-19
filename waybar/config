@@ -4,7 +4,7 @@
     "height": 40,
 
     "modules-left": ["clock", "custom/power", "custom/wifi", "custom/bluetooth"],
-    "modules-center": ["hyprland/workspaces"],
+    "modules-center": ["hyprland/workspaces", "mpris"],
     "modules-right": ["custom/battery", "custom/volume", "custom/brightness"],
 
     "clock": {
@@ -36,6 +36,23 @@
         "format": "●",
         "format-inactive": "○",
         "on-click": "activate"
+    },
+
+    "mpris": {
+        "format": "{player_icon}  {title}",
+        "format-paused": "⏸  {title}",
+        "player-icons": {
+            "default": "▶",
+            "spotify": ""
+        },
+        "status-icons": {
+            "paused": "⏸",
+            "stopped": "⏹"
+        },
+        "max-length": 35,
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous"
     },
 
     "custom/battery": {

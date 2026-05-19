@@ -1,0 +1,130 @@
+# ============================================================
+# DUNST — Cyberpunk Blue Theme
+# Paleta: fondo #000a1a · acento #0055ff · texto #3399ff
+# ============================================================
+
+[global]
+    monitor = 0
+    follow = none
+
+    # ---- Wayland ----
+    force_xwayland = false
+    layer = top
+
+    # ---- Geometría ----
+    width = (0, 380)
+    height = (0, 200)
+    origin = top-right
+    offset = 20x20
+    notification_limit = 5
+    gap_size = 8
+
+    # ---- Apariencia ----
+    transparency = 0
+    corner_radius = 10
+    frame_width = 2
+    frame_color = "#0055ff"
+    separator_height = 1
+    separator_color = "#001033"
+    padding = 14
+    horizontal_padding = 16
+    text_icon_padding = 10
+
+    # ---- Barra de progreso ----
+    progress_bar = true
+    progress_bar_height = 6
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 6
+    highlight = "#0055ff"
+
+    # ---- Texto ----
+    font = JetBrainsMono Nerd Font 11
+    line_height = 2
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    word_wrap = yes
+    ellipsize = middle
+    ignore_newline = no
+    show_age_threshold = 30
+
+    # ---- Íconos ----
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    icon_theme = candy-icons, Papirus, hicolor
+    enable_recursive_icon_lookup = true
+
+    # ---- Stack / historial ----
+    stack_duplicates = true
+    hide_duplicate_count = false
+    sticky_history = yes
+    history_length = 20
+    show_indicators = yes
+    indicate_hidden = yes
+
+    # ---- Mouse ----
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    # ---- Misc ----
+    dmenu = /usr/bin/wofi --dmenu
+    browser = /usr/bin/firefox -new-tab
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+
+
+# ============================================================
+# URGENCIAS
+# ============================================================
+
+[urgency_low]
+    background = "#00080abb"
+    foreground = "#2266cc"
+    frame_color = "#001033"
+    timeout = 4
+
+[urgency_normal]
+    background = "#000a1acc"
+    foreground = "#3399ff"
+    frame_color = "#0055ff"
+    timeout = 6
+
+[urgency_critical]
+    background = "#00081ae5"
+    foreground = "#66bbff"
+    frame_color = "#0055ff"
+    highlight = "#0099ff"
+    timeout = 0
+
+
+# ============================================================
+# REGLAS DE APP
+# ============================================================
+
+[gamemode_on]
+    appname = notify-send
+    summary = "*Modo Juego*"
+    frame_color = "#0099ff"
+    foreground = "#33aaff"
+    timeout = 2
+
+[gamemode_off]
+    appname = notify-send
+    summary = "*Modo Normal*"
+    frame_color = "#001144"
+    foreground = "#1155bb"
+    timeout = 2
+
+[volume]
+    appname = pamixer
+    timeout = 2
+
+[brightness]
+    appname = brightnessctl
+    timeout = 2

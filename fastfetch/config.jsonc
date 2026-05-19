@@ -1,0 +1,35 @@
+{
+  "logo": {
+    "source": "~/.config/fastfetch/skull.txt",
+    "type": "file"
+  },
+  "display": {
+    "separator": " -> "
+  },
+  "modules": [
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "shell",
+    "display",
+    "wm",
+    "terminal",
+    "cpu",
+    {
+      "type": "gpu",
+      "index": 0
+    },
+    "memory",
+    {
+      "type": "disk",
+      "folders": "/"
+    },
+    {
+      "type": "disk",
+      "folders": "/home"
+    },
+    "battery",
+    "localip"
+  ]
+}

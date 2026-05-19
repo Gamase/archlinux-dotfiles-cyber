@@ -1,36 +1,48 @@
 * {
-    font-family: "JetBrainsMono Nerd Font";
-    font-size: 120px;
-    background-image: none;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    border: none;
+    box-shadow: none;
+    outline: none;
 }
+
 window {
-    background-color: rgba(0, 10, 30, 0.92);
-    background-image: none;
+    background-color: rgba(0, 0, 0, 0.92);
 }
+
 button {
     color: #3399ff;
-    background-color: rgba(0, 18, 50, 0.9);
-    border: 1px solid #003399;
+    background-color: rgba(0, 10, 26, 0.9);
+    border: 1px solid rgba(0, 85, 255, 0.3);
     border-radius: 12px;
-    background-size: 0px;
     background-repeat: no-repeat;
-    background-position: center;
-    background-image: none;
-    margin: 5px;
-    font-size: 64px;
-    transition: all 0.3s ease;
+    background-position: center center;
+    background-size: 70px;
+    margin: 10px;
+    min-width: 140px;
+    min-height: 160px;
+    transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
 }
+
+button label {
+    color: #3399ff;
+    font-size: 13px;
+    margin-top: 100px;
+    background: transparent;
+}
+
 button:hover {
-    background-color: rgba(0, 55, 180, 0.7);
+    background-color: rgba(0, 85, 255, 0.15);
     border-color: #0055ff;
-    color: #0055ff;
-    outline-style: none;
 }
+
 button:active {
-    background-color: rgba(0, 80, 220, 0.9);
+    background-color: rgba(0, 85, 255, 0.3);
     border-color: #0055ff;
-    color: #0055ff;
 }
-#lock, #logout, #suspend, #hibernate, #shutdown, #reboot {
-    background-image: none;
-}
+
+#lock      { background-image: url("icons/lock_hq.png"); }
+#hibernate { background-image: url("icons/hibernate_hq.png"); }
+#logout    { background-image: url("icons/logout_hq.png"); }
+#shutdown  { background-image: url("icons/shutdown_hq.png"); }
+#suspend   { background-image: url("icons/suspend_hq.png"); }
+#reboot    { background-image: url("icons/reboot_hq.png"); }
