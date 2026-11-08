@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fondo de pantalla
-swaybg -i ~/Downloads/fondo.jpg -m fill &
+swaybg -i ~/.config/hypr/wallpapers/fondo.jpg -m fill &
 
 # Barra
 # Se reinicia sola si crashea (bug de mpris/playerctl en waybar 0.15)
