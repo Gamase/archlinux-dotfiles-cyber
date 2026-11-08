@@ -185,17 +185,17 @@ while IFS=: read -r inuse sig sec ssid; do
     [ -n "$sec" ] && [[ ! "$sec" =~ ^OWE ]] && lock="  "
     if [ "$ssid" = "$current" ]; then
         label="$(signal_icon "$sig")  $ssid$lock  (conectado)"
-        opts="$label\n$opts"
+        opts="$label"$'\n'"$opts"
     else
         label="$(signal_icon "$sig")  $ssid$lock"
-        opts+="$label\n"
+        opts+="$label"$'\n'
     fi
     SSIDS["$label"]=$ssid
     SECS["$label"]=$sec
 done < <(nmcli -t -e no -f IN-USE,SIGNAL,SECURITY,SSID dev wifi list --rescan no | sort -t: -k2,2nr)
 
-opts+="󰑐  Buscar redes\n󰈈  Red oculta…\n󰤭  Apagar WiFi"
-choice=$(echo -e "$opts" | rofi_menu "󰤨  WiFi${current:+: $current}")
+opts+=$'󰑐  Buscar redes\n󰈈  Red oculta…\n󰤭  Apagar WiFi'
+choice=$(printf '%s\n' "$opts" | rofi_menu "󰤨  WiFi${current:+: $current}")
 
 case "$choice" in
     "")                exit 0 ;;

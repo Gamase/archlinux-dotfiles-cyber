@@ -95,7 +95,7 @@ scan_and_pair() {
         grep -qx "$mac" <<< "$paired" && continue
         # Omite dispositivos sin nombre real (BlueZ usa la MAC con guiones)
         [ "$name" = "${mac//:/-}" ] && continue
-        lines+="$name  [$mac]\n"
+        lines+="$name  [$mac]"$'\n'
     done < <(bluetoothctl devices)
 
     if [ -z "$lines" ]; then
@@ -104,9 +104,10 @@ scan_and_pair() {
     fi
 
     local choice
-    choice=$(echo -e "${lines%\\n}" | rofi_menu "Emparejar")
+    choice=$(printf '%s' "$lines" | rofi_menu "Emparejar")
     [ -z "$choice" ] && return
     mac=$(sed -n 's/.*\[\(.*\)\]$/\1/p' <<< "$choice")
+    [[ "$mac" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]] || return
     name=${choice%  \[*}
 
     notify "Emparejando…" "$name"
@@ -140,11 +141,11 @@ while read -r _ mac name; do
         label="  $name"
     fi
     MACS["$label"]=$mac
-    opts+="$label\n"
+    opts+="$label"$'\n'
 done < <(bluetoothctl devices Paired)
 
-opts+="󰂰  Buscar dispositivos nuevos\n󰂲  Apagar Bluetooth"
-choice=$(echo -e "$opts" | rofi_menu "  Bluetooth")
+opts+=$'󰂰  Buscar dispositivos nuevos\n󰂲  Apagar Bluetooth'
+choice=$(printf '%s\n' "$opts" | rofi_menu "  Bluetooth")
 
 case "$choice" in
     "")                       exit 0 ;;

@@ -29,6 +29,8 @@ idle_resume() {
 # apply_mode <monitor> <mirror|extend> [silent]
 apply_mode() {
     local ext="$1" mode="$2"
+    # $ext se inserta en código Lua (hyprctl eval): solo nombres de conector válidos (HDMI-A-1, DP-2…)
+    [[ "$ext" =~ ^[A-Za-z0-9-]+$ ]] || return 1
     date +%s > "$STAMP_FILE"
     echo "$mode" > "$MODE_FILE"
     if [ "$mode" = "mirror" ]; then

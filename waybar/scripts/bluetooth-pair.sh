@@ -5,6 +5,9 @@
 MAC=$1
 WAIT=${2:-60}
 [ -z "$MAC" ] && { echo "Uso: $0 MAC [segundos]"; exit 2; }
+# MAC y WAIT se insertan en código Tcl (expect): solo se aceptan valores con formato estricto
+[[ "$MAC" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]] || { echo "MAC inválida: $MAC" >&2; exit 2; }
+[[ "$WAIT" =~ ^[0-9]+$ ]] || { echo "Segundos inválidos: $WAIT" >&2; exit 2; }
 
 bluetoothctl remove "$MAC" >/dev/null 2>&1
 
