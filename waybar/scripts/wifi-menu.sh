@@ -46,6 +46,18 @@ saved_profile() {
     done < <(nmcli -t -e no -f NAME,TYPE con show)
 }
 
+# Las contraseñas se pasan a nmcli por un descriptor de archivo, nunca como argumento
+# (los argumentos de un proceso los puede ver cualquier usuario con `ps`)
+# con_up_secret <perfil> <setting.propiedad> <secreto>
+con_up_secret() {
+    nmcli --wait 30 con up id "$1" passwd-file /dev/fd/3 3< <(printf '%s:%s\n' "$2" "$3")
+}
+
+# Tipo de llave para un perfil nuevo según el SECURITY que reporta nmcli
+key_mgmt_for() {
+    if [[ "$1" == *WPA3* && "$1" != *WPA2* && "$1" != *WPA1* ]]; then echo sae; else echo wpa-psk; fi
+}
+
 connected_ok() {
     notify "Conectado" "$1"
     refresh
@@ -58,19 +70,25 @@ connect_failed() {
 
 # Conecta a una red nueva. $2 = SECURITY de nmcli
 connect_new() {
-    local ssid=$1 sec=$2 pass user out
+    local ssid=$1 sec=$2 pass user domain out
 
     if [[ "$sec" == *802.1X* ]]; then
         # WPA-Enterprise (escuelas, oficinas): PEAP + MSCHAPv2 es lo más común
         user=$(rofi_input "Usuario:" "󰒃  $ssid (empresarial)") || return
         [ -z "$user" ] && return
         pass=$(rofi_input "Contraseña:" "󰒃  $ssid — $user" --password) || return
+        # Dominio del servidor RADIUS (p. ej. radius.escuela.mx). Si se da, se verifica su
+        # certificado y una red falsa con el mismo nombre no puede robar la contraseña.
+        domain=$(rofi_input "Dominio:" "󰒃  Dominio del certificado del servidor (vacío = no verificar)") || return
         notify "Conectando…" "$ssid"
+        local cert_opts=()
+        [ -n "$domain" ] && cert_opts=(802-1x.system-ca-certs yes 802-1x.domain-suffix-match "$domain")
         nmcli con add type wifi ifname "$IFACE" con-name "$ssid" ssid "$ssid" \
             wifi-sec.key-mgmt wpa-eap 802-1x.eap peap 802-1x.phase2-auth mschapv2 \
-            802-1x.identity "$user" 802-1x.password "$pass" >/dev/null 2>&1
-        if out=$(nmcli --wait 30 con up id "$ssid" 2>&1); then
+            802-1x.identity "$user" "${cert_opts[@]}" >/dev/null 2>&1
+        if out=$(con_up_secret "$ssid" 802-1x.password "$pass" 2>&1); then
             connected_ok "$ssid"
+            [ -z "$domain" ] && notify -u normal "Certificado no verificado" "$ssid: una red falsa con el mismo nombre podría capturar tu contraseña."
         else
             nmcli con delete id "$ssid" >/dev/null 2>&1
             connect_failed "$ssid" "Usuario o contraseña incorrectos"
@@ -86,7 +104,14 @@ connect_new() {
         pass=$(rofi_input "Contraseña:" "  $ssid" --password) || return
         [ -z "$pass" ] && return
         notify "Conectando…" "$ssid"
-        out=$(nmcli --wait 30 dev wifi connect "$ssid" password "$pass" ifname "$IFACE" 2>&1)
+        if [[ "$sec" == *WEP* ]]; then
+            # WEP (obsoleto): nmcli elige el formato de la llave solo con este comando
+            out=$(nmcli --wait 30 dev wifi connect "$ssid" password "$pass" ifname "$IFACE" 2>&1)
+        else
+            nmcli con add type wifi ifname "$IFACE" con-name "$ssid" ssid "$ssid" \
+                wifi-sec.key-mgmt "$(key_mgmt_for "$sec")" >/dev/null 2>&1
+            out=$(con_up_secret "$ssid" 802-11-wireless-security.psk "$pass" 2>&1)
+        fi
     fi
 
     if [ $? -eq 0 ]; then
@@ -113,8 +138,7 @@ connect_saved() {
     if [ -n "$sec" ] && [[ ! "$sec" =~ ^OWE ]] && [[ "$sec" != *802.1X* ]]; then
         pass=$(rofi_input "Contraseña:" "  $ssid — la guardada no funcionó" --password) || { refresh; return; }
         [ -z "$pass" ] && return
-        nmcli con modify id "$profile" wifi-sec.psk "$pass"
-        if nmcli --wait 30 con up id "$profile" >/dev/null 2>&1; then
+        if con_up_secret "$profile" 802-11-wireless-security.psk "$pass" >/dev/null 2>&1; then
             connected_ok "$ssid"
             return
         fi
@@ -145,7 +169,9 @@ hidden_network() {
     pass=$(rofi_input "Contraseña:" "  $ssid — vacío si es abierta" --password) || return
     notify "Conectando…" "$ssid"
     if [ -n "$pass" ]; then
-        out=$(nmcli --wait 30 dev wifi connect "$ssid" password "$pass" hidden yes ifname "$IFACE" 2>&1)
+        nmcli con add type wifi ifname "$IFACE" con-name "$ssid" ssid "$ssid" \
+            802-11-wireless.hidden yes wifi-sec.key-mgmt wpa-psk >/dev/null 2>&1
+        out=$(con_up_secret "$ssid" 802-11-wireless-security.psk "$pass" 2>&1)
     else
         out=$(nmcli --wait 30 dev wifi connect "$ssid" hidden yes ifname "$IFACE" 2>&1)
     fi
