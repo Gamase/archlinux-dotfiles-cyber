@@ -66,7 +66,7 @@
     },
 
     "custom/volume": {
-        "exec": "~/.config/waybar/scripts/volume.sh $([ -f /tmp/waybar-volume-expanded ] && echo expanded || echo false)",
+        "exec": "~/.config/waybar/scripts/volume.sh",
         "interval": 1,
         "return-type": "json",
         "on-click": "~/.config/waybar/scripts/volume-menu.sh",
@@ -80,8 +80,9 @@
         "exec": "~/.config/waybar/scripts/brightness.sh",
         "interval": 2,
         "return-type": "json",
+        "signal": 2,
         "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
-        "on-scroll-up": "brightnessctl set +5%",
-        "on-scroll-down": "brightnessctl set 5%-"
+        "on-scroll-up": "brightnessctl set +5% && pkill -RTMIN+2 waybar",
+        "on-scroll-down": "brightnessctl set 5%- && pkill -RTMIN+2 waybar"
     }
 }
