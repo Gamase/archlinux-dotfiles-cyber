@@ -1,0 +1,83 @@
+# ========== CYBERPUNK RED THEME ==========
+# Estilo rojo intenso sobre negro
+
+# Fondo y texto principal
+theme[main_bg]="#000000"
+theme[main_fg]="#ff0000"
+
+# Títulos y acentos
+theme[title]="#ff3333"
+theme[hi_fg]="#ff0000"
+
+# CPU - rojo intenso
+theme[cpu]="#ff0000"
+theme[cpu_cores]="#ff3333"
+theme[cpu_bg]="#1a0000"
+
+# Memoria
+theme[mem]="#ff0000"
+theme[swap]="#ff3333"
+theme[mem_bg]="#1a0000"
+
+# Red
+theme[net]="#ff0000"
+theme[net_up]="#ff3333"
+theme[net_down]="#ff0000"
+theme[net_bg]="#1a0000"
+
+# GPU
+theme[gpu]="#ff0000"
+theme[gpu_bg]="#1a0000"
+
+# Procesos
+theme[proc]="#ff3333"
+theme[proc_mem]="#ff0000"
+theme[proc_cpu]="#ff0000"
+theme[proc_bg]="#1a0000"
+
+# Gráficos
+theme[graph_text]="#ff0000"
+theme[graph_bg]="#000000"
+theme[graph_line]="#ff0000"
+
+# Temperatura
+theme[temp]="#ff0000"
+theme[temp_warn]="#ff3333"
+theme[temp_crit]="#ff0000"
+
+# Batería
+theme[battery]="#ff0000"
+theme[battery_warn]="#ff3333"
+theme[battery_bg]="#1a0000"
+
+# Discos
+theme[disk]="#ff0000"
+theme[disk_bg]="#1a0000"
+
+# Tiempo de actividad
+theme[uptime]="#ff3333"
+
+# Barras y métricas
+theme[bar_bg]="#1a0000"
+theme[bar_fg]="#ff0000"
+theme[bar_fill]="#ff0000"
+
+# Selección
+theme[selected_bg]="#ff0000"
+theme[selected_fg]="#000000"
+
+# Advertencias
+theme[warn]="#ff3333"
+theme[crit]="#ff0000"
+
+# Botones
+theme[button_bg]="#1a0000"
+theme[button_fg]="#ff0000"
+theme[button_hover]="#ff3333"
+
+# Texto
+theme[text]="#ff0000"
+theme[text_bg]="#000000"
+
+# Divisores
+theme[divider]="#ff0000"

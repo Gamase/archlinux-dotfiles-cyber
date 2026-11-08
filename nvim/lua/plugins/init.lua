@@ -70,7 +70,7 @@ return {
             action = "qa",
           },
         },
-        footer = { "", "  github.com/cyber" },
+        footer = { "", "  cyber lab" },
       },
     })
   end,

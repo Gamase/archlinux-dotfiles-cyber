@@ -73,7 +73,7 @@
 
     # ---- Misc ----
     dmenu = /usr/bin/wofi --dmenu
-    browser = /usr/bin/firefox -new-tab
+    browser = /usr/bin/zen-browser -new-tab
     always_run_script = true
     title = Dunst
     class = Dunst

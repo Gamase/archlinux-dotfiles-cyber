@@ -5,7 +5,7 @@
 
     "modules-left": ["clock", "custom/power", "custom/wifi", "custom/bluetooth"],
     "modules-center": ["hyprland/workspaces", "mpris"],
-    "modules-right": ["custom/battery", "custom/volume", "custom/brightness"],
+    "modules-right": ["tray", "custom/battery", "custom/volume", "custom/brightness"],
 
     "clock": {
         "format": " {:%H:%M}",
@@ -21,15 +21,19 @@
      "custom/wifi": {
         "exec": "~/.config/waybar/scripts/wifi.sh",
         "interval": 5,
+        "signal": 9,
         "return-type": "json",
         "tooltip": true,
-        "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+        "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+        "on-click-right": "~/.config/waybar/scripts/wifi-menu.sh --rescan"
     },
     "custom/bluetooth": {
         "exec": "~/.config/waybar/scripts/bluetooth.sh",
-        "interval": 5,
+        "interval": 15,
+        "signal": 8,
         "return-type": "json",
-        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh"
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
+        "on-click-right": "~/.config/waybar/scripts/bluetooth-menu.sh --manage"
     },
 
     "hyprland/workspaces": {
@@ -66,6 +70,7 @@
         "interval": 1,
         "return-type": "json",
         "on-click": "~/.config/waybar/scripts/volume-menu.sh",
+        "on-click-right": "pkill -x pavucontrol || pavucontrol -t 1",
         "on-scroll-up": "pamixer -i 5 && pkill -RTMIN+1 waybar",
         "on-scroll-down": "pamixer -d 5 && pkill -RTMIN+1 waybar",
         "signal": 1
